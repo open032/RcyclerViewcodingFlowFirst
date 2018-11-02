@@ -12,6 +12,15 @@ import java.util.ArrayList;
 
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleviewHolder> {
     private ArrayList<ExampleIetm> mExampleList;
+    private OnItemClickListener mListener;
+
+    public  interface OnItemClickListener {
+        void  onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
 
     public ExampleAdapter(ArrayList<ExampleIetm> exampleList) {
@@ -22,7 +31,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Examplev
     @Override
     public ExampleviewHolder onCreateViewHolder(ViewGroup parent, int i) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item, parent, false);
-        ExampleviewHolder evh = new ExampleviewHolder(v);
+        ExampleviewHolder evh = new ExampleviewHolder(v, mListener);
         return evh;
     }
 
@@ -46,11 +55,23 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Examplev
         public TextView mTextView2;
 
 
-        public ExampleviewHolder(@NonNull View itemView) {
+        public ExampleviewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView1 = itemView.findViewById(R.id.textView);
             mTextView2 = itemView.findViewById(R.id.textSmall);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);;
+                        }
+                    }
+                }
+            });
         }
     }
 }

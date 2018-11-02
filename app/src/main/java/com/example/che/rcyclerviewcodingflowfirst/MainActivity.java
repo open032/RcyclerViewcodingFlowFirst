@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ExampleIetm> mExampleList;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private ExampleAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private Button buttonInsert;
@@ -60,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.notifyItemRemoved(position);
     }
 
+    public void changeItem(int position, String text) {
+        mExampleList.get(position).chengeText1(text);
+        mAdapter.notifyItemChanged(position);
+    }
+
     public  void createExampleList() {
 
         mExampleList = new ArrayList<>();
@@ -76,5 +81,12 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                changeItem(position, "Clicked");
+            }
+        });
     }
 }

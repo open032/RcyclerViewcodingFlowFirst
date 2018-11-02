@@ -11,6 +11,10 @@ public class ExampleIetm {
         mText2 = text2;
     }
 
+    public void chengeText1(String text) {
+        mText1 = text;
+    }
+
     public int getmImageResource() {
         return mImageResource;
     }
